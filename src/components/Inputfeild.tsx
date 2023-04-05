@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./styles.css";
 
 // Why we Create the interface for the props ?
@@ -13,9 +13,18 @@ interface Props {
 }
 
 const Inputfeild = ({ todo, setTodo, handleAdd }: Props) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   return (
-    <form className="input" onSubmit={handleAdd}>
+    <form
+      className="input"
+      onSubmit={(e) => {
+        handleAdd(e);
+        // when we write the todo in input feild, background become blur, to do it normal we used "inputRef"
+        inputRef.current?.blur();
+      }}
+    >
       <input
+        ref={inputRef}
         type="text"
         value={todo}
         onChange={(e) => setTodo(e.target.value)}
